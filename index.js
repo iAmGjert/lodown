@@ -191,3 +191,234 @@ function unique(arr){
     return ans;    
 }
 module.exports.unique = unique;
+
+/**
+ * filter: Designed to take in an array and a function, iterate through the array and
+ * then return a new array with all values of the original array that returned true when
+ * passed through the function.
+ * @param {Array} arr: the array to iterate over
+ * @param {Function} func: the function that will be invoked over each element of 'arr'
+ * @returns {Array}: a new array filtered.
+ */
+ function filter(arr, func){
+    /**let ans = [];
+    for (let i = 0; i < arr.length; i++){
+        if (func(arr[i], i, arr)){
+            ans.push(arr[i]);
+        }
+    }
+    return ans; */
+    let ans = [];
+    _.each(arr, function(ele, ind, array){
+        if (func(ele, ind, array)){
+            ans.push(ele);
+        }
+    });
+    return ans;
+}
+module.exports.filter = filter;
+
+/**
+ * reject: Designed to take in an array and a function, iterate through the array and
+ * then return a new array with all the values of the original array that returned false when
+ * passed through the function.
+ * @param {Array} arr: the array to iterate over
+ * @param {Function} func: the function to that will be invoked over each element of 'arr'
+ * @returns {Array}: a new array of elements that returned false when passed thru a function.
+ */
+ function reject(arr, func){
+    let ans = [];
+    /**for (let i = 0; i < arr.length; i++){
+        if (!func(arr[i], i, arr)){
+            ans.push(arr[i]);
+        }
+    }*/
+    _.each(arr, function(ele, ind, array){
+        if (!func(ele, ind, array)){
+            ans.push(ele);
+        }
+    });
+    return ans;
+}
+module.exports.reject = reject;
+
+/**
+ * partition: Designed to take in an array and a function, iterate through the array and 
+ * then return a new array of sub arrays. The first sub array is all the values that returned
+ * something truthy. The second sub array is all the values that returned something falsy.
+ * @param {Array} arr: the array to iterate over
+ * @param {Function} func: the function to invoke on each element of 'arr'
+ * @returns {Array}: sub-arrays of [[truthy values], [falsy values]] when passed thru func
+ */
+ function partition(arr, func){
+    let ans = [[], []];
+    for (let i = 0; i < arr.length; i++){
+        if (func(arr[i], i, arr)){
+            ans[0].push(arr[i]);
+        } else {
+            ans[1].push(arr[i]);
+        }
+    }
+    return ans;
+}
+module.exports.partition = partition;
+
+/**
+ * map: Designed to take in a colleciton (array or object) and a function, iterate through the collection and
+ * return a new array of the collection's properties passed through the function in this way:
+ *  if collection is an array: the element, it's index, <collection>
+ *  if collection is an object: the value, it's key, <collection>
+ * @param {Collection} box: the collection to iterate through.
+ * @param {Function} func: the function to invoke against the properties of the collection
+ * @returns {Array}: an array of the values returned when invoking func with the properties
+ * of box.
+ */
+ function map(box, func){
+    let ans = [];
+    if (_.typeOf(box) === 'array'){
+        for (let i = 0; i < box.length; i++){
+            ans.push(func(box[i], i, box));
+        }
+    } else if (_.typeOf(box) === 'object'){
+        for (let key in box){
+            ans.push(func(box[key], key, box));
+        }
+    }
+    return ans;
+}
+module.exports.map = map;
+
+/**
+ * pluck: Designed to take in an array of objects and a property, iterate through the array
+ * and return a new array of the <property> for every object in the original array.
+ * @param {Array} arr: the array of objects to iterate over.
+ * @param {Property} prop: the property to look for in each object of the original array.
+ * @returns {Array}: an array filled with the <property> of each object of the original array.
+ */
+
+ function pluck(arr, prop){
+    return _.map(arr, function(ele, i, box){
+        return ele[prop];
+    });
+}
+module.exports.pluck = pluck;
+
+/**
+ * every: Designed to take in a collection (array or object) and a function, iterate through the
+ * collection's properties and invoke a function at each property. If the function returns true for
+ * every single property in the collection then it will return true. Otherwise, return false.
+ * @param {Collection} box: the collection to iterate through.
+ * @param {Function} func: the function to invoke over every property of the colleciton.
+ * @returns {Boolean}: returns true if every property of the collection returns true when invoked
+ * with the function argument.
+ */
+ function every(box, func){
+    let ans = true;
+    if (func){
+        if (Array.isArray(box)){
+            for (let i = 0; i < box.length; i++){
+                if (!func(box[i], i, box)){
+                    ans = false;
+                }
+            }
+        } else {
+            for (let key in box){
+                if(!func(box[key], key, box)){
+                    ans = false;
+                }
+            }
+        }
+    } else {
+        if (Array.isArray(box)){
+            for (let i = 0; i < box.length; i++){
+                if (!box[i]){
+                    ans = false;
+                }
+            }
+        } else {
+            for (let key in box){
+                if (!box[key]){
+                    ans = false;
+                }
+            }
+        }
+    }
+    return ans;
+}
+module.exports.every = every;
+
+/**
+ * some: Designed to take in a collection (array or object) and a function, iterate through the
+ * collection's properties and invoke the function at each property. If the function returns true for
+ * a single property in the colleciton then it will return true. Otherwise, return false.
+ * @param {Collection} box: the collection to iterate over
+ * @param {Function} func: the function to invoke at each property of the collection.
+ * @returns {Boolean}: returns true if a single property of the collection returns true when invoked
+ * with the func.
+ */
+ function some(box, func){
+    let ans = false;
+    if (func){
+        if (Array.isArray(box)){
+            for (let i = 0; i < box.length; i++){
+                if (func(box[i], i, box)){
+                    ans = true;
+                }
+            }
+        } else {
+            for (let key in box){
+                if (func(box[key], key, box)){
+                    ans = true;
+                }
+            }
+        }
+    } else {
+        if (Array.isArray(box)){
+            for (let i = 0; i < box.length; i++){
+                if (box[i]){
+                    ans = true;
+                }
+            }
+        }
+    }
+    return ans;
+}
+module.exports.some = some;
+
+/**
+ * reduce: Designed to take in an array, a function, and a seed. If no seed is passed into the
+ * function it is initialized to the first element in the array. Reduce will then iterate over
+ * the array and invoke the function at each element in the array. It will store that value as the
+ * new seed and at the end of it's iterations return the seed value;
+ * @param {Array} array: the array to iterate over.
+ * @param {Function} func: the function to invoke at each element of array.
+ * @param {Seed} seed: the inital value of "accumulator" seed.
+ * @returns: a new array with just the seed value in it.
+ */
+ function reduce(array, func, seed) {
+    if (seed === undefined) {
+        seed = array[0];
+        for(var i = 1; i < array.length; i++) {
+            seed = func(seed, array[i], i);
+        }
+    } else {
+        for (var i = 0; i < array.length; i++) {
+            seed = func(seed, array[i], i);
+        }
+    }
+ return seed;
+};
+module.exports.reduce = reduce;
+
+/**
+ * extend: Designed to take in an object, and then any number more objects. Will copy all 
+ * properties from the subsequent objects into the first object and return the first object.
+ * @param {Object} obj: the initial object to be filled with new properties.
+ * @param {...Objects} obj2: the remaineder of the objects to be added to the intial object.
+ * @returns: inital obj filled with new properties. 
+ */
+ function extend(obj, ...obj2){
+    Object.assign(obj, ...obj2);
+    return obj;
+}
+module.exports.extend = extend;
