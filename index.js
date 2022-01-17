@@ -5,6 +5,9 @@
  * identify: Designed to return any value unchanged.
  * @param {any value} value: the value passed 
  * @returns {value} value unchanged.
+ * Examples:
+ *   _.identity(5) === 5
+ *   _.identity({a: "b"}) === {a: "b"}
  */
  function identify(value) {
     return value;
@@ -178,8 +181,6 @@ module.exports.each = each;
  * @return {Array}: new array minus duplicate values.
  * Examples:
  *   _.filter([1,2,3,4,5], function(x){return x%2 === 0}) -> [2,4]
- * Extra Credit:
- *   use _.each in your implementation
  */
 function unique(arr){
     let ans = [];
@@ -199,6 +200,8 @@ module.exports.unique = unique;
  * @param {Array} arr: the array to iterate over
  * @param {Function} func: the function that will be invoked over each element of 'arr'
  * @returns {Array}: a new array filtered.
+ * Examples:
+ *   _.filter([1,2,3,4,5], function(x){return x%2 === 0}) -> [2,4]
  */
  function filter(arr, func){
     /**let ans = [];
@@ -225,6 +228,8 @@ module.exports.filter = filter;
  * @param {Array} arr: the array to iterate over
  * @param {Function} func: the function to that will be invoked over each element of 'arr'
  * @returns {Array}: a new array of elements that returned false when passed thru a function.
+ * Examples:
+ *   _.reject([1,2,3,4,5], function(e){return e%2 === 0}) -> [1,3,5]
  */
  function reject(arr, func){
     let ans = [];
@@ -249,6 +254,10 @@ module.exports.reject = reject;
  * @param {Array} arr: the array to iterate over
  * @param {Function} func: the function to invoke on each element of 'arr'
  * @returns {Array}: sub-arrays of [[truthy values], [falsy values]] when passed thru func
+ * Examples:
+ *   _.partition([1,2,3,4,5], function(element,index,arr){
+ *     return element % 2 === 0;
+ *   }); -> [[2,4],[1,3,5]]
  */
  function partition(arr, func){
     let ans = [[], []];
@@ -272,6 +281,8 @@ module.exports.partition = partition;
  * @param {Function} func: the function to invoke against the properties of the collection
  * @returns {Array}: an array of the values returned when invoking func with the properties
  * of box.
+ * Examples:
+ *   _.map([1,2,3,4], function(e){return e * 2}) -> [2,4,6,8]
  */
  function map(box, func){
     let ans = [];
@@ -294,6 +305,8 @@ module.exports.map = map;
  * @param {Array} arr: the array of objects to iterate over.
  * @param {Property} prop: the property to look for in each object of the original array.
  * @returns {Array}: an array filled with the <property> of each object of the original array.
+ * Examples:
+ *   _.pluck([{a: "one"}, {a: "two"}], "a") -> ["one", "two"]
  */
 
  function pluck(arr, prop){
@@ -311,6 +324,9 @@ module.exports.pluck = pluck;
  * @param {Function} func: the function to invoke over every property of the colleciton.
  * @returns {Boolean}: returns true if every property of the collection returns true when invoked
  * with the function argument.
+ * Examples:
+ *   _.every([2,4,6], function(e){return e % 2 === 0}) -> true
+ *   _.every([1,2,3], function(e){return e % 2 === 0}) -> false
  */
  function every(box, func){
     let ans = true;
@@ -355,6 +371,9 @@ module.exports.every = every;
  * @param {Function} func: the function to invoke at each property of the collection.
  * @returns {Boolean}: returns true if a single property of the collection returns true when invoked
  * with the func.
+ * Examples:
+ *   _.some([1,3,5], function(e){return e % 2 === 0}) -> false
+ *   _.some([1,2,3], function(e){return e % 2 === 0}) -> true
  */
  function some(box, func){
     let ans = false;
@@ -394,6 +413,8 @@ module.exports.some = some;
  * @param {Function} func: the function to invoke at each element of array.
  * @param {Seed} seed: the inital value of "accumulator" seed.
  * @returns: a new array with just the seed value in it.
+ * Examples:
+*   _.reduce([1,2,3], function(previousSum, currentValue, currentIndex){ return previousSum + currentValue }, 0) -> 6
  */
  function reduce(array, func, seed) {
     if (seed === undefined) {
@@ -416,6 +437,10 @@ module.exports.reduce = reduce;
  * @param {Object} obj: the initial object to be filled with new properties.
  * @param {...Objects} obj2: the remaineder of the objects to be added to the intial object.
  * @returns: inital obj filled with new properties. 
+ * Examples:
+ *   var data = {a:"one"};
+ *   _.extend(data, {b:"two"}); -> data now equals {a:"one",b:"two"}
+ *   _.extend(data, {a:"two"}); -> data now equals {a:"two"}
  */
  function extend(obj, ...obj2){
     Object.assign(obj, ...obj2);
